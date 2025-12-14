@@ -130,7 +130,7 @@ const HeroSection = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="text-4xl lg:text-7xl font-extrabold text-[#132440]">
+                                    <div className="text-4xl lg:text-7xl font-extrabold text-[#DCE4B8]">
                                         <CountUp
                                             from={0}
                                             to={58}

@@ -37,7 +37,7 @@ const LogIn = () => {
     return (
         <div className="min-h-screen bg-gray-50 pt-20">
             <div className="flex items-center justify-center min-h-[80vh] px-2">
-                <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl shadow-[#ccff33] p-8 my-15 max-md:mt-3 grid grid-cols-1 md:grid-cols-2 gap-6 border-[#b0e510]">
+                <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl shadow-[#515739] p-8 my-15 max-md:mt-3 grid grid-cols-1 md:grid-cols-2 gap-6 border-[#b0e510]">
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-3">
                             <img src={logo} alt="LOGO" className="w-20 h-auto" />

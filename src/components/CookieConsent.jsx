@@ -18,8 +18,8 @@ const CookieConsent = () => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40">
-        <div className="flex flex-col items-center max-md:w-[80vw] w-[25vw] bg-white text-gray-500 p-4 md:p-6 rounded-lg border border-gray-500/30 text-sm">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/65">
+        <div className="flex flex-col items-center max-md:w-[80vw] w-[23vw] bg-white text-gray-500 p-4 md:p-6 rounded-lg border border-gray-500/30 text-sm">
             <div className="flex items-center justify-center relative w-full gap-2 pb-3">
                 <img className="absolute -top-12" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/cookies/cookieImage2.svg" alt="cookieImage2" />
                 <h1 className="text-gray-800 text-2xl font-medium text-left w-full pt-3">Your privacy is important to us</h1>

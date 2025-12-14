@@ -3,7 +3,7 @@ import React from 'react'
 const Testimonials = (props) => {
       return (
         <div className="flex flex-wrap items-center justify-center gap-6 pt-14">
-            <div className="text-sm w-80 border border-gray-200 pb-6 bg-gray-100 rounded-xl shadow-xl shadow-amber-300">
+            <div className="text-sm w-80 border border-gray-200 pb-6 bg-gray-100 rounded-xl shadow-xl shadow-[#515739]">
                 <div className="flex flex-col items-center px-5 py-4 relative">
                     <img className="h-24 w-24 absolute -top-14 rounded-full" src={props.img} alt="userImage1" />
                     <div className="pt-8 text-center">
