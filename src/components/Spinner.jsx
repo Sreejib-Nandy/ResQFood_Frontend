@@ -8,7 +8,7 @@ const Spinner = () => {
                 <img
                     src={gif}
                     alt="Loading..."
-                    className="w-80 h-80 max-md:w-40 max-md:h-40"
+                    className="w-80 h-80 max-md:w-50 max-md:h-50"
                 />
                 {/* Res<span className="text-[#9ac31f]">Q</span>Food */}
             </div>
