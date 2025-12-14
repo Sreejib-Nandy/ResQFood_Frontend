@@ -27,7 +27,9 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } finally {
-        setLoading(false);
+        setInterval(() => {
+          setLoading(false);
+      }, 3000);
       }
     };
     loadUser();
