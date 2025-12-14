@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       } finally {
         setInterval(() => {
           setLoading(false);
-      }, 3000);
+      }, 1500);
       }
     };
     loadUser();
