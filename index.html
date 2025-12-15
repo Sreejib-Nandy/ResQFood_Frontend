@@ -2,35 +2,52 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- Favicon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="public/favicon.ico" />
 
-    <!-- Responsive meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- SEO -->
     <title>ResQFood — Saving Food, Serving Hope</title>
+
     <meta
       name="description"
-      content="ResQFood connects restaurants with NGOs to distribute surplus food efficiently and sustainably."
+      content="ResQFood connects restaurants with NGOs to distribute surplus food efficiently, reduce food waste, and serve communities sustainably."
     />
 
-    <!-- Open Graph (for sharing previews) -->
+    <link rel="canonical" href="https://resqfood-dgna.onrender.com/" />
+
+    <meta name="robots" content="index, follow" />
+
     <meta property="og:title" content="ResQFood — Saving Food, Serving Hope" />
     <meta
       property="og:description"
       content="A real-time platform enabling restaurants and NGOs to reduce food waste and serve communities."
     />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="https://resqfood-dgna.onrender.com/og-image.png" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://resqfood-dgna.onrender.com/" />
 
-    <!-- Disable default iOS input zooming -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ResQFood",
+        "url": "https://resqfood-dgna.onrender.com/",
+        "description": "ResQFood connects restaurants with NGOs to reduce food waste and fight hunger."
+      }
+    </script>
+
     <meta name="format-detection" content="telephone=no" />
   </head>
 
   <body class="antialiased text-gray-900 bg-white">
+    <noscript>
+      ResQFood is a platform that helps reduce food waste by connecting restaurants and NGOs.
+    </noscript>
+
     <div id="root"></div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

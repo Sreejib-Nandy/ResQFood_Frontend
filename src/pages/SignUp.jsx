@@ -31,8 +31,8 @@ export default function Signup() {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
             err.email = "Valid email required";
 
-        if (!form.contactInfo.match(/^[\d+\s-]{7,15}$/))
-            err.contactInfo = "Valid contact required";
+        if (!form.contactInfo.match(/^[\d+\s-]{10}$/))
+            err.contactInfo = "Phone number must be exactly 10 digits";
 
         if (!form.address.trim()) err.address = "Address is required";
 
@@ -64,11 +64,6 @@ export default function Signup() {
         try {
             const result = await signup(form);
         
-        if (!result.success) {
-            toast.error(result.message);
-            return;
-        }
-
         navigate("/login");
         scrollTo(0,0);
         } catch (err) {

@@ -15,3 +15,15 @@
     scrollbar-width: thin;
     scrollbar-color: #787777 #1e1e1e;
 }
+
+@keyframes wave {
+  0% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-12px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.5; }
+}
+
+.animate-wave {
+  animation: wave 0.8s ease-in-out infinite;
+}
+
+

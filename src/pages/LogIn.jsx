@@ -3,7 +3,6 @@ import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 import { Link } from 'react-router-dom';
 import toast from "react-hot-toast";
-import Footer from '../components/Footer';
 
 const LogIn = () => {
     const [formData, setFormData] = useState({
@@ -18,11 +17,6 @@ const LogIn = () => {
 
     try {
       const result = await login(formData);
-
-    //   if (!result.success) {
-    //     toast.error(result.message);
-    //     return;
-    //   }
 
     } catch (err) {
       toast.error("Login failed. Please try again.");
@@ -48,7 +42,7 @@ const LogIn = () => {
                         <div className="text-l text-slate-600">Once logged in, you’ll be able to manage posts, share surplus food, or collect meals from nearby partners.</div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="w-full text-center border border-gray-300/40 rounded-2xl px-5 bg-white">
+                    <form onSubmit={handleSubmit} className="w-full text-center border border-gray-300/40 rounded-2xl px-5 bg-white shadow-md shadow-[#515739]">
                         <h1 className="text-gray-900 text-3xl mt-5 font-medium">Login</h1>
                         <p className="text-gray-500 text-sm mt-2">Please log in to continue</p>
                         <div className="flex items-center w-full mt-4 bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden pl-5 max-md:pl-2 gap-2">
@@ -62,13 +56,12 @@ const LogIn = () => {
                         <div className="mt-4 text-left text-[#9fc235]">
                             <button className="text-sm pl-2" type="reset">Forget password?</button>
                         </div>
-                        <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#9fc235] hover:opacity-90 cursor-pointer transition-opacity">Log in
+                        <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#9fc235] hover:opacity-90 cursor-pointer transition-opacity" onClick={() => scrollTo(0,0)}>Log in
                         </button>
                         <p className="text-gray-500 text-sm mt-3 mb-11 text-center">"Don't have an account?"<Link to="/signup" className="text-[#9fc235] hover:underline" onClick={() => scrollTo(0,0)}> Sign up</Link></p>
                     </form>
                 </div>
             </div>
-            <Footer/>
         </div>
     )
 }
