@@ -51,7 +51,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
                     </button>
 
                     <button
-                        disabled={selectedFood.status !== "claimed"}
+                        disabled={food.status !== "claimed"}
                         onClick={handleCollect}
                         className="flex-1 bg-green-600 disabled:bg-gray-300 text-white py-2 rounded"
                     >
