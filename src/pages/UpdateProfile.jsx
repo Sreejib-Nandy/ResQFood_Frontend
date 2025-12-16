@@ -8,7 +8,6 @@ import Footer from '../components/Footer';
 import toast from 'react-hot-toast';
 import { SaveAll, Trash2 } from 'lucide-react';
 import DeleteModal from '../components/DeleteModal';
-import { useNavigate } from 'react-router-dom';
 
 const UpdateProfile = () => {
     const { user, loading, hardLogout } = useAuth();
@@ -25,12 +24,6 @@ const UpdateProfile = () => {
     const handleChange = (e) => {
         setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
     };
-
-    // useEffect(() => {
-    //     if (!loading && !user) {
-    //         navigate("/", { replace: true });
-    //     }
-    // }, [user, loading, navigate]);
 
     useEffect(() => {
         if (user) {
@@ -188,7 +181,7 @@ const UpdateProfile = () => {
                         </button>
                     </form>
 
-                    <div className='min-md:relative min-md:-right-[23.6vw]'>
+                    <div className='md:relative md:-right-[23.6vw]'>
                         <button
                             type="button"
                             onClick={() => {

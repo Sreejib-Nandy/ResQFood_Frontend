@@ -26,4 +26,41 @@
   animation: wave 0.8s ease-in-out infinite;
 }
 
+@keyframes rotate {
+                    100% {
+                        transform: rotate(1turn);
+                    }
+                }
+            
+                .rainbow::before {
+                    content: '';
+                    position: absolute;
+                    z-index: -2;
+                    left: -50%;
+                    top: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background-position: 100% 50%;
+                    background-repeat: no-repeat;
+                    background-size: 50% 30%;
+                    filter: blur(6px);
+                    background-image: linear-gradient(#e20875,#ee6c09);
+                    animation: rotate 4s linear infinite;
+                }
+
+.pulse-marker {
+          position: relative;
+        }
+        .pulse-marker::after {
+          content: "";
+          position: absolute;
+          inset: -6px;
+          border-radius: 9999px;
+          background: rgba(34, 197, 94, 0.4);
+          animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+          from { transform: scale(0.8); opacity: 1; }
+          to { transform: scale(1.8); opacity: 0; }
+        }
 

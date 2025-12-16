@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-4 pr-5 sm:px-6 md:px-8 lg:px-16 py-2.5 max-md:py-4 text-white bg-blue-950/50 backdrop-blur-md">
+      <div className={`fixed top-0 left-0 z-50 w-full flex items-center justify-between px-4 pr-5 sm:px-6 md:px-8 lg:px-16 py-2.5 max-md:py-4 text-white ${isHome ? 'bg-blue-950/50' : 'bg-blue-950/90'} backdrop-blur-md transition-all duration-600`}>
         {/* Logo */}
         <Link to="/" className="flex-1 flex items-center" onClick={() => { scrollTo(0, 0); }}>
           <img
@@ -44,6 +44,9 @@ const Navbar = () => {
           </Link>)}
           {user && user?.role == 'ngo' && (<Link to="/ngodashboard" onClick={() => { scrollTo(0, 0); setisOpen(false) }} className="hover:text-[#ccff33] transition-all duration-400">
             NGO Dashboard
+          </Link>)}
+          {user && user?.role == 'ngo' && (<Link to="/mapview" onClick={() => { scrollTo(0, 0); setisOpen(false) }} className="hover:text-[#ccff33] transition-all duration-400">
+            Mapview
           </Link>)}
           {!user && (
             <>

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // 🔄 RESTORE SESSION ON REFRESH
+  // RESTORE SESSION ON REFRESH
   useEffect(() => {
     const loadUser = async () => {
       setLoading(true);
@@ -27,9 +27,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } finally {
-        setInterval(() => {
           setLoading(false);
-      }, 1500);
       }
     };
     loadUser();
@@ -93,6 +91,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("resq_user");
       navigate("/");
+      toast.success("Logged out Successfully")
     } catch (err) {
       toast.error(err.response?.data?.message);
     } finally {
