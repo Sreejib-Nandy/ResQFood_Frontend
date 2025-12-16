@@ -50,11 +50,11 @@ const NgoDashboard = () => {
   };
 
   socket.on("food_expired", handleFoodExpired);
-  socket.on("foodCollected", handleFoodCollected);
+  socket.on("food_collected_owner", handleFoodCollected);
 
   return () => {
     socket.off("food_expired", handleFoodExpired);
-    socket.off("foodCollected", handleFoodCollected);
+    socket.off("food_collected_owner", handleFoodCollected);
   };
 }, [socket]);
 

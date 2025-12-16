@@ -55,13 +55,13 @@ useEffect(() => {
   };
 
   socket.on("food_expired", handleFoodExpired);
-  socket.on("food_claimed", handleFoodClaimed);
-  socket.on("foodCollected", handleFoodCollected);
+  socket.on("food_claimed_owner", handleFoodClaimed);
+  socket.on("food_collected_owner", handleFoodCollected);
 
   return () => {
     socket.off("food_expired", handleFoodExpired);
-    socket.off("food_claimed", handleFoodClaimed);
-    socket.off("foodCollected", handleFoodCollected);
+    socket.off("food_claimed_owner", handleFoodClaimed);
+    socket.off("food_collected_owner", handleFoodCollected);
   };
 }, [socket]);
 

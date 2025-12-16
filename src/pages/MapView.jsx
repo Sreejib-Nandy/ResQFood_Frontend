@@ -209,20 +209,17 @@ const MapView = () => {
         const onUpdate = (food) => addOrUpdateMarker(food);
         const onDelete = (foodId) => removeMarker(foodId);
         const onClaim = (food) => removeMarker(food._id);
-        const onCollect = ({ foodId }) => removeMarker(foodId);
 
         socket.on("new_food_post", onNewFood);
         socket.on("post_updated", onUpdate);
         socket.on("post_deleted", onDelete);
-        socket.on("food_claimed", onClaim);
-        socket.on("foodCollected", onCollect);
+        socket.on("food_unavailable", onClaim);
 
         return () => {
             socket.off("new_food_post", onNewFood);
             socket.off("post_updated", onUpdate);
             socket.off("post_deleted", onDelete);
-            socket.off("food_claimed", onClaim);
-            socket.off("foodCollected", onCollect);
+            socket.off("food_unavailable", onClaim);
         };
     }, []);
 

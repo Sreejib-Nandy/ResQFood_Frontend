@@ -45,18 +45,18 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
                     <button
                         disabled={food.status !== "available"}
                         onClick={handleClaim}
-                        className="flex-1 bg-blue-600 disabled:bg-gray-300 text-white py-2 rounded"
+                        className="flex-1 bg-[#7da30be6] disabled:bg-gray-300 text-white py-2 rounded"
                     >
                         Claim
                     </button>
 
-                    <button
+                    {/* <button
                         disabled={food.status !== "claimed"}
                         onClick={handleCollect}
                         className="flex-1 bg-green-600 disabled:bg-gray-300 text-white py-2 rounded"
                     >
                         Collect
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>
