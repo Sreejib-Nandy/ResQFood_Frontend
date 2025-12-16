@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { claimedFoodPosts } from "../api/food";
 import Spinner from "../components/Spinner";
 import { useAuth } from "../context/AuthContext";
-import Footer from "../components/Footer";
 import ClaimedCard from "../components/ClaimedCard";
+import toast from "react-hot-toast";
 import socket from "../socket/socket";
 
 const NgoDashboard = () => {
@@ -23,8 +23,9 @@ const NgoDashboard = () => {
   };
 
   useEffect(() => {
-  if (!socket) return;
+  if (!socket || !user?._id) return;
 
+  // ⏱ Food expired via cron
   const handleFoodExpired = ({ ids }) => {
     if (!ids?.length) return;
 
@@ -37,26 +38,17 @@ const NgoDashboard = () => {
     );
   };
 
-  const handleFoodCollected = ({ foodId }) => {
-    setFoods((prev) =>
-      prev.map((food) =>
-        food._id === foodId
-          ? { ...food, status: "collected" }
-          : food
-      )
-    );
-
-    toast.success("Food collected successfully");
-  };
+  const handleFoodUnavailable = ({ foodId }) => {
+  setFoods((prev) => prev.filter((food) => food._id !== foodId));
+};
 
   socket.on("food_expired", handleFoodExpired);
-  socket.on("food_collected_owner", handleFoodCollected);
-
+  socket.on("food_unavailable", handleFoodUnavailable);
   return () => {
     socket.off("food_expired", handleFoodExpired);
-    socket.off("food_collected_owner", handleFoodCollected);
+    socket.off("food_unavailable", handleFoodUnavailable);
   };
-}, [socket]);
+}, [socket, user?._id]);
 
   useEffect(() => {
     if (!user?.id) {

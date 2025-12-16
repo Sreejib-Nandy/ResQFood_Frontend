@@ -1,12 +1,32 @@
 import { io } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_API_URL; 
-// must equal: https://resqfood.onrender.com
+const SOCKET_URL = import.meta.env.VITE_API_URL;
 
 const socket = io(SOCKET_URL, {
-  transports: ["websocket"],
+  transports: ["polling", "websocket"],
   withCredentials: true,
+  autoConnect: false,
+  reconnection: true,
 });
+
+export const connectSocket = (user) => {
+  if (!user?._id) return;
+
+  socket.auth = {
+    userId: user._id,
+    role: user.role,
+  };
+
+  if (!socket.connected) {
+    socket.connect();
+  }
+};
+
+export const disconnectSocket = () => {
+  if (socket.connected) {
+    socket.disconnect();
+  }
+};
 
 socket.on("connect", () => {
   console.log("Socket connected:", socket.id);

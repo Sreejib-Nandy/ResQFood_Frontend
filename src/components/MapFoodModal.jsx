@@ -9,11 +9,11 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         onClose();
     };
 
-    const handleCollect = async () => {
-        await collectFood(food._id);
-        refresh();
-        onClose();
-    };
+    // const handleCollect = async () => {
+    //     await collectFood(food._id);
+    //     refresh();
+    //     onClose();
+    // };
 
     return (
         <div className="fixed inset-0 bg-black/50 z-20 flex items-center justify-center">

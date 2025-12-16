@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import toast from "react-hot-toast";
+import { connectSocket, disconnectSocket } from "../socket/socket";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -10,6 +11,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+        if (user) {
+          connectSocket(user);
+        }
+      }, [user]);
 
   // RESTORE SESSION ON REFRESH
   useEffect(() => {
@@ -27,7 +34,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     };
     loadUser();
@@ -88,6 +95,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       await api.post("/auth/logout", {}, { withCredentials: true });
+      disconnectSocket();
       setUser(null);
       localStorage.removeItem("resq_user");
       navigate("/");

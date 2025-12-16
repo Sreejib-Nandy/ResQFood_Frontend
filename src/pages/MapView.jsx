@@ -205,23 +205,38 @@ const MapView = () => {
     useEffect(() => {
         if (!socket) return;
 
-        const onNewFood = (food) => addOrUpdateMarker(food);
-        const onUpdate = (food) => addOrUpdateMarker(food);
-        const onDelete = (foodId) => removeMarker(foodId);
-        const onClaim = (food) => removeMarker(food._id);
+        const onNewFood = (food) => {
+            if (food.status === "available") {
+                addOrUpdateMarker(food);
+            }
+        };
+
+        const onPostUpdated = (food) => {
+            addOrUpdateMarker(food);
+            // addOrUpdateMarker already removes if status !== available
+        };
+
+        const onPostDeleted = (foodId) => {
+            removeMarker(foodId);
+        };
+
+        const onFoodUnavailable = ({ foodId }) => {
+            removeMarker(foodId);
+        };
 
         socket.on("new_food_post", onNewFood);
-        socket.on("post_updated", onUpdate);
-        socket.on("post_deleted", onDelete);
-        socket.on("food_unavailable", onClaim);
+        socket.on("post_updated", onPostUpdated);
+        socket.on("post_deleted", onPostDeleted);
+        socket.on("food_unavailable", onFoodUnavailable);
 
         return () => {
             socket.off("new_food_post", onNewFood);
-            socket.off("post_updated", onUpdate);
-            socket.off("post_deleted", onDelete);
-            socket.off("food_unavailable", onClaim);
+            socket.off("post_updated", onPostUpdated);
+            socket.off("post_deleted", onPostDeleted);
+            socket.off("food_unavailable", onFoodUnavailable);
         };
     }, []);
+
 
     return (
         <>

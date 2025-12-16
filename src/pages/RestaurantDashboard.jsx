@@ -6,7 +6,6 @@ import { getFoodPosts, deleteFood } from "../api/food";
 import Spinner from "../components/Spinner";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import Footer from "../components/Footer";
 import EditFood from "../components/EditFood";
 import socket from "../socket/socket";
 
@@ -18,7 +17,40 @@ const RestaurantDashboard = () => {
   const [editFood, setEditFood] = useState(null);
 
 useEffect(() => {
-  if (!socket) return;
+  if (!socket || !user?._id) return;
+
+  //  When NGO claims food
+  const handleFoodClaimed = ({ foodId }) => {
+  let claimedFoodName = "";
+
+  setFoods((prev) =>
+    prev.map((food) => {
+      if (food._id === foodId) {
+        claimedFoodName = food.food_name;
+        return { ...food, status: "claimed" };
+      }
+      return food;
+    })
+  );
+
+  if (claimedFoodName) {
+    toast.success(`Your "${claimedFoodName}" was claimed`);
+  }
+};
+
+
+  // When NGO collects food
+  const handleFoodCollected = ({ foodId }) => {
+    setFoods((prev) =>
+      prev.map((food) =>
+        food._id === foodId
+          ? { ...food, status: "collected" }
+          : food
+      )
+    );
+
+    toast.success("Food collected successfully");
+  };
 
   const handleFoodExpired = ({ ids }) => {
     if (!ids?.length) return;
@@ -32,38 +64,17 @@ useEffect(() => {
     );
   };
 
-  const handleFoodClaimed = (updatedFood) => {
-    setFoods((prev) =>
-      prev.map((food) =>
-        food._id === updatedFood._id ? updatedFood : food
-      )
-    );
-
-    toast.success(`"${updatedFood.food_name}" was claimed`);
-  };
-
-  const handleFoodCollected = ({ foodId }) => {
-    setFoods((prev) =>
-      prev.map((food) =>
-        food._id === foodId
-          ? { ...food, status: "collected" }
-          : food
-      )
-    );
-
-    toast.success("Food collected successfully");
-  };
-
-  socket.on("food_expired", handleFoodExpired);
   socket.on("food_claimed_owner", handleFoodClaimed);
   socket.on("food_collected_owner", handleFoodCollected);
+  socket.on("food_expired", handleFoodExpired);
 
   return () => {
-    socket.off("food_expired", handleFoodExpired);
     socket.off("food_claimed_owner", handleFoodClaimed);
     socket.off("food_collected_owner", handleFoodCollected);
+    socket.off("food_expired", handleFoodExpired);
   };
-}, [socket]);
+}, [socket, user?._id]);
+
 
 
   const fetchFoods = async () => {
