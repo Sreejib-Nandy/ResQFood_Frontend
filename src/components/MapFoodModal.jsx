@@ -1,10 +1,12 @@
 import { claimFood } from "../api/food";
 import { X } from "lucide-react";
 import React from "react";
+import toast from "react-hot-toast";
 
 const MapFoodModal = ({ food, onClose, refresh }) => {
   const handleClaim = async () => {
     await claimFood(food._id);
+    toast.success(`"${food.food_name} is claimed successfully"`);
     refresh();
     onClose();
   };
@@ -19,7 +21,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         overflow-hidden
       ">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b">
+        <div className="flex items-center justify-between px-4 py-3 border-b p-5">
           <h2 className="text-lg font-semibold text-gray-800">
             Food Details
           </h2>
@@ -77,6 +79,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
               rounded-lg
               font-medium
               transition
+              cursor-pointer
             "
           >
             Claim

@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 const socket = io(SOCKET_URL, {
-  transports: ["websocket"],
+  transports: ["polling", "websocket"],
   withCredentials: true,
   autoConnect: false,
   reconnection: true,
@@ -28,8 +28,6 @@ export const disconnectSocket = () => {
   }
 };
 
-socket.off("connect");
-socket.off("connect_error");
 
 socket.on("connect", () => {
   console.log("Socket connected:", socket.id);

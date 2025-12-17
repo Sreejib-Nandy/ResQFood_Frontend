@@ -153,20 +153,17 @@ const MapView = () => {
     const onPostUpdated = (food) => addOrUpdateMarker(food);
     const onPostDeleted = (foodId) => removeMarker(foodId);
     const onFoodUnavailable = ({ foodId }) => removeMarker(foodId);
-    const onFoodExpired = ({ ids }) => ids.forEach(removeMarker);
 
     socket.on("new_food_post", onNewFood);
     socket.on("post_updated", onPostUpdated);
     socket.on("post_deleted", onPostDeleted);
     socket.on("food_unavailable", onFoodUnavailable);
-    socket.on("food_expired", onFoodExpired);
 
     return () => {
       socket.off("new_food_post", onNewFood);
       socket.off("post_updated", onPostUpdated);
       socket.off("post_deleted", onPostDeleted);
       socket.off("food_unavailable", onFoodUnavailable);
-      socket.off("food_expired", onFoodExpired);
     };
   }, []);
 

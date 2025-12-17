@@ -41,16 +41,28 @@ const NgoDashboard = () => {
       );
     };
 
+    const handleFoodCollected = ({ foodId }) => {
+    setFoods(prev =>
+      prev.map(food =>
+        food._id === foodId
+          ? { ...food, status: "collected" }
+          : food
+      )
+    );
+  };
+
     const handleFoodUnavailable = ({ foodId }) => {
       setFoods((prev) => prev.filter((food) => food._id !== foodId));
     };
 
     socket.on("food_expired", handleFoodExpired);
     socket.on("food_unavailable", handleFoodUnavailable);
+    socket.on("food_collected_owner", handleFoodCollected);
 
     return () => {
       socket.off("food_expired", handleFoodExpired);
       socket.off("food_unavailable", handleFoodUnavailable);
+      socket.off("food_collected_owner", handleFoodCollected);
     };
   }, [user?.id]);
 
