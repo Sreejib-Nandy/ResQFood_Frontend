@@ -1,9 +1,9 @@
 import { io } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_API_URL;
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 const socket = io(SOCKET_URL, {
-  transports: ["polling", "websocket"],
+  transports: ["websocket"],
   withCredentials: true,
   autoConnect: false,
   reconnection: true,
@@ -27,6 +27,9 @@ export const disconnectSocket = () => {
     socket.disconnect();
   }
 };
+
+socket.off("connect");
+socket.off("connect_error");
 
 socket.on("connect", () => {
   console.log("Socket connected:", socket.id);

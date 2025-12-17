@@ -1,8 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar';
-import { useEffect } from 'react';
-// import { socket } from './socket/socket';
-import { AuthProvider,useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/SignUp';
@@ -56,8 +54,6 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
       <AppContent />
-    </AuthProvider>
   );
 }

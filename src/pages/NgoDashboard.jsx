@@ -3,7 +3,6 @@ import { claimedFoodPosts } from "../api/food";
 import Spinner from "../components/Spinner";
 import { useAuth } from "../context/AuthContext";
 import ClaimedCard from "../components/ClaimedCard";
-import toast from "react-hot-toast";
 import socket from "../socket/socket";
 
 const NgoDashboard = () => {
@@ -11,11 +10,14 @@ const NgoDashboard = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch claimed foods
   const fetchFoods = async () => {
+    if (!user?._id) return;
     try {
+      setLoading(true);
       const res = await claimedFoodPosts();
       setFoods(res.data.data || []);
-    } catch (error) {
+    } catch {
       setFoods([]);
     } finally {
       setLoading(false);
@@ -23,69 +25,58 @@ const NgoDashboard = () => {
   };
 
   useEffect(() => {
-  if (!socket || !user?._id) return;
-
-  // ⏱ Food expired via cron
-  const handleFoodExpired = ({ ids }) => {
-    if (!ids?.length) return;
-
-    setFoods((prev) =>
-      prev.map((food) =>
-        ids.includes(food._id)
-          ? { ...food, status: "expired" }
-          : food
-      )
-    );
-  };
-
-  const handleFoodUnavailable = ({ foodId }) => {
-  setFoods((prev) => prev.filter((food) => food._id !== foodId));
-};
-
-  socket.on("food_expired", handleFoodExpired);
-  socket.on("food_unavailable", handleFoodUnavailable);
-  return () => {
-    socket.off("food_expired", handleFoodExpired);
-    socket.off("food_unavailable", handleFoodUnavailable);
-  };
-}, [socket, user?._id]);
-
-  useEffect(() => {
-    if (!user?.id) {
-      setLoading(false);
-      return;
-    }
     fetchFoods();
-  }, [user?.id]);
+  }, [user?._id]);
+
+  // Socket listeners
+  useEffect(() => {
+    if (!user?._id || !socket.connected) return;
+
+    const handleFoodExpired = ({ ids }) => {
+      if (!ids?.length) return;
+      setFoods((prev) =>
+        prev.map((food) =>
+          ids.includes(food._id) ? { ...food, status: "expired" } : food
+        )
+      );
+    };
+
+    const handleFoodUnavailable = ({ foodId }) => {
+      setFoods((prev) => prev.filter((food) => food._id !== foodId));
+    };
+
+    socket.on("food_expired", handleFoodExpired);
+    socket.on("food_unavailable", handleFoodUnavailable);
+
+    return () => {
+      socket.off("food_expired", handleFoodExpired);
+      socket.off("food_unavailable", handleFoodUnavailable);
+    };
+  }, [user?._id]);
 
   if (loading) return <Spinner />;
 
   return (
-    <>
-      <div className="pt-24 px-6 pb-10 md:px-20">
-        <div className="flex justify-between items-center mb-6">
-          {foods.length !== 0 && <h1 className="text-2xl font-semibold">Your Claimed & Collected Food Posts</h1>}
-        </div>
+    <div className="pt-24 px-6 pb-10 md:px-20">
+      {foods.length !== 0 && (
+        <h1 className="text-2xl font-semibold mb-6">
+          Your Claimed & Collected Food Posts
+        </h1>
+      )}
 
-        {foods.length === 0 ? (
-          <div className="h-[70vh] flex items-center justify-center text-4xl max-md:text-2xl">
-          <p className="text-blue-950/80 font-semibold">No food posts claimed yet.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {foods.map((food) => (
-              <ClaimedCard
-                key={food._id}
-                food={food}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+      {foods.length === 0 ? (
+        <div className="h-[70vh] flex items-center justify-center text-2xl">
+          No food posts claimed yet.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {foods.map((food) => (
+            <ClaimedCard key={food._id} food={food} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
-
 export default NgoDashboard;
-

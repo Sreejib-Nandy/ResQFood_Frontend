@@ -16,72 +16,14 @@ const RestaurantDashboard = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [editFood, setEditFood] = useState(null);
 
-useEffect(() => {
-  if (!socket || !user?._id) return;
-
-  //  When NGO claims food
-  const handleFoodClaimed = ({ foodId }) => {
-  let claimedFoodName = "";
-
-  setFoods((prev) =>
-    prev.map((food) => {
-      if (food._id === foodId) {
-        claimedFoodName = food.food_name;
-        return { ...food, status: "claimed" };
-      }
-      return food;
-    })
-  );
-
-  if (claimedFoodName) {
-    toast.success(`Your "${claimedFoodName}" was claimed`);
-  }
-};
-
-
-  // When NGO collects food
-  const handleFoodCollected = ({ foodId }) => {
-    setFoods((prev) =>
-      prev.map((food) =>
-        food._id === foodId
-          ? { ...food, status: "collected" }
-          : food
-      )
-    );
-
-    toast.success("Food collected successfully");
-  };
-
-  const handleFoodExpired = ({ ids }) => {
-    if (!ids?.length) return;
-
-    setFoods((prev) =>
-      prev.map((food) =>
-        ids.includes(food._id)
-          ? { ...food, status: "expired" }
-          : food
-      )
-    );
-  };
-
-  socket.on("food_claimed_owner", handleFoodClaimed);
-  socket.on("food_collected_owner", handleFoodCollected);
-  socket.on("food_expired", handleFoodExpired);
-
-  return () => {
-    socket.off("food_claimed_owner", handleFoodClaimed);
-    socket.off("food_collected_owner", handleFoodCollected);
-    socket.off("food_expired", handleFoodExpired);
-  };
-}, [socket, user?._id]);
-
-
-
+  // Fetch foods
   const fetchFoods = async () => {
+    if (!user?._id) return;
     try {
-      const res = await getFoodPosts(user.id);
+      setLoading(true);
+      const res = await getFoodPosts(user._id);
       setFoods(res.data.data || []);
-    } catch (error) {
+    } catch {
       setFoods([]);
     } finally {
       setLoading(false);
@@ -89,12 +31,59 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (!user?.id) {
-      setLoading(false);
-      return;
-    }
     fetchFoods();
-  }, [user?.id]);
+  }, [user?._id]);
+
+  // Socket listeners
+  useEffect(() => {
+    if (!user?._id || !socket.connected) return;
+
+    const handleFoodClaimed = ({ foodId }) => {
+      let claimedFoodName = "";
+
+      setFoods((prev) =>
+        prev.map((food) => {
+          if (food._id === foodId) {
+            claimedFoodName = food.food_name;
+            return { ...food, status: "claimed" };
+          }
+          return food;
+        })
+      );
+
+      if (claimedFoodName) {
+        toast.success(`Your "${claimedFoodName}" was claimed`);
+      }
+    };
+
+    const handleFoodCollected = ({ foodId }) => {
+      setFoods((prev) =>
+        prev.map((food) =>
+          food._id === foodId ? { ...food, status: "collected" } : food
+        )
+      );
+      toast.success("Food collected successfully");
+    };
+
+    const handleFoodExpired = ({ ids }) => {
+      if (!ids?.length) return;
+      setFoods((prev) =>
+        prev.map((food) =>
+          ids.includes(food._id) ? { ...food, status: "expired" } : food
+        )
+      );
+    };
+
+    socket.on("food_claimed_owner", handleFoodClaimed);
+    socket.on("food_collected_owner", handleFoodCollected);
+    socket.on("food_expired", handleFoodExpired);
+
+    return () => {
+      socket.off("food_claimed_owner", handleFoodClaimed);
+      socket.off("food_collected_owner", handleFoodCollected);
+      socket.off("food_expired", handleFoodExpired);
+    };
+  }, [user?._id]);
 
   const handleDelete = async (id) => {
     try {
@@ -109,52 +98,50 @@ useEffect(() => {
   if (loading) return <Spinner />;
 
   return (
-    <>
-      <div className="pt-24 px-6 pb-10 md:px-20">
-        <div className="flex justify-between items-center mb-6">
-          {foods.length !== 0 && <h1 className="text-2xl font-semibold">Your Food Posts</h1>}
-          <div className="rainbow relative z-0 overflow-hidden p-0.5 flex items-center justify-center rounded-full hover:scale-1.05 transition duration-300 active:scale-100">
-            <button className="px-6 flex items-center gap-1 text-sm py-3 text-gray-900 rounded-full font-medium bg-[#d5f083] cursor-pointer" onClick={() => setShowCreate(true)}>
-              <Plus size={18} />
-              Create
-            </button>
-          </div>
-        </div>
-
-        {foods.length === 0 ? (
-          <div className="h-[70vh] flex items-center justify-center text-4xl max-md:text-2xl">
-          <p className="text-blue-950/80 font-semibold">No food posts created yet.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {foods.map((food) => (
-              <FoodCard
-                key={food._id}
-                food={food}
-                onDelete={handleDelete}
-                onEdit={(food) => setEditFood(food)}
-              />
-            ))}
-          </div>
+    <div className="pt-24 px-6 pb-10 md:px-20">
+      <div className="flex justify-between items-center mb-6">
+        {foods.length !== 0 && (
+          <h1 className="text-2xl font-semibold">Your Food Posts</h1>
         )}
-
-        <CreateFood
-          open={showCreate}
-          onClose={() => setShowCreate(false)}
-          onCreated={fetchFoods}
-        />
-
-        <EditFood
-          open={!!editFood}
-          food={editFood}
-          onClose={() => setEditFood(null)}
-          onUpdated={fetchFoods}
-        />
-
+        <button
+          onClick={() => setShowCreate(true)}
+          className="px-6 flex items-center gap-1 text-sm py-3 rounded-full bg-[#d5f083]"
+        >
+          <Plus size={18} /> Create
+        </button>
       </div>
-    </>
+
+      {foods.length === 0 ? (
+        <div className="h-[70vh] flex items-center justify-center text-2xl">
+          No food posts created yet.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {foods.map((food) => (
+            <FoodCard
+              key={food._id}
+              food={food}
+              onDelete={handleDelete}
+              onEdit={(food) => setEditFood(food)}
+            />
+          ))}
+        </div>
+      )}
+
+      <CreateFood
+        open={showCreate}
+        onClose={() => setShowCreate(false)}
+        onCreated={fetchFoods}
+      />
+
+      <EditFood
+        open={!!editFood}
+        food={editFood}
+        onClose={() => setEditFood(null)}
+        onUpdated={fetchFoods}
+      />
+    </div>
   );
 };
-
 
 export default RestaurantDashboard;

@@ -12,11 +12,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // SOCKET LIFECYCLE (connect on login, disconnect on logout / expiry)
   useEffect(() => {
-        if (user) {
-          connectSocket(user);
-        }
-      }, [user]);
+    if (user) {
+      connectSocket(user);
+    } else {
+      disconnectSocket();
+    }
+  }, [user]);
 
   // RESTORE SESSION ON REFRESH
   useEffect(() => {
@@ -26,13 +29,7 @@ export const AuthProvider = ({ children }) => {
         const res = await api.get("/users/me");
         setUser(res.data);
       } catch (err) {
-        if (err.response?.status === 401) {
-          setUser(null);
-        } else {
-          // Unexpected error (network / server issue)
-          console.error("Failed to restore session", err);
-          setUser(null);
-        }
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -56,13 +53,11 @@ export const AuthProvider = ({ children }) => {
 
       const profile = await api.get("/users/me");
       setUser(profile.data);
-      localStorage.setItem("resq_user", JSON.stringify(profile.data));
 
       navigate("/");
       return { success: true };
-
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      toast.error(err.response?.data?.message || "Login failed");
       return {
         success: false,
         message: err.response?.data?.message || "Login failed",
@@ -77,11 +72,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.post("/auth/register", formData);
       toast.success(res.data.message);
-
-      return { success: true, message: res.data.message };
-
+      return { success: true };
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      toast.error(err.response?.data?.message || "Registration failed");
       return {
         success: false,
         message: err.response?.data?.message || "Registration failed",
@@ -95,13 +88,11 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       await api.post("/auth/logout", {}, { withCredentials: true });
-      disconnectSocket();
       setUser(null);
-      localStorage.removeItem("resq_user");
       navigate("/");
-      toast.success("Logged out Successfully")
+      toast.success("Logged out successfully");
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      toast.error(err.response?.data?.message || "Logout failed");
     } finally {
       setLoading(false);
     }
@@ -109,14 +100,20 @@ export const AuthProvider = ({ children }) => {
 
   const hardLogout = () => {
     setUser(null);
-    localStorage.removeItem("resq_user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading, hardLogout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+        hardLogout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
-
-

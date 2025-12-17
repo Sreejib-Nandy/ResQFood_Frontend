@@ -10,13 +10,13 @@ const LogIn = () => {
         password: ''
     })
 
-    const { login } = useAuth();
+    const { login, loading } = useAuth();
 
     const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const result = await login(formData);
+      await login(formData);
 
     } catch (err) {
       toast.error("Login failed. Please try again.");
@@ -54,9 +54,9 @@ const LogIn = () => {
                             <input type="password" name="password" placeholder="Password" className="border-none outline-none ring-0" value={formData.password} onChange={handleChange} required />
                         </div>
                         <div className="mt-4 text-left text-[#9fc235]">
-                            <button className="text-sm pl-2" type="reset">Forget password?</button>
+                            <button className="text-sm pl-2" type="button">Forget password?</button>
                         </div>
-                        <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#9fc235] hover:opacity-90 cursor-pointer transition-opacity" onClick={() => scrollTo(0,0)}>Log in
+                        <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-[#9fc235] hover:opacity-90 cursor-pointer transition-opacity" onClick={() => scrollTo(0,0)}>{loading ? "Logging in..." : "Log in"}
                         </button>
                         <p className="text-gray-500 text-sm mt-3 mb-11 text-center">"Don't have an account?"<Link to="/signup" className="text-[#9fc235] hover:underline" onClick={() => scrollTo(0,0)}> Sign up</Link></p>
                     </form>
