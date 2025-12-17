@@ -65,7 +65,7 @@ const NgoDashboard = () => {
       )}
 
       {foods.length === 0 ? (
-        <div className="h-[70vh] flex items-center justify-center max-md:text-2xl text-4xl">
+        <div className="h-[70vh] flex items-center justify-center max-md:text-2xl text-4xl text-[#211d1d] font-semibold">
           No food posts claimed yet.
         </div>
       ) : (
