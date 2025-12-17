@@ -21,7 +21,7 @@ const RestaurantDashboard = () => {
     if (!user?.id) return;
     try {
       setLoading(true);
-      const res = await getFoodPosts(user._id);
+      const res = await getFoodPosts(user.id);
       setFoods(res.data.data || []);
     } catch {
       setFoods([]);

@@ -75,7 +75,7 @@ const MapView = () => {
 
     const el = createMarkerEl();
     el.onclick = () => {
-      map.current.flyTo({ center: food.location.coordinates, zoom: 15 });
+      map.current.flyTo({ center: food.location.coordinates, zoom: 12 });
       setSelectedFood(food);
     };
 
