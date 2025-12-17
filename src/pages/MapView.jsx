@@ -58,7 +58,7 @@ const MapView = () => {
   const createMarkerEl = () => {
     const el = document.createElement("div");
     el.className =
-      "w-4 h-4 rounded-full bg-green-600 pulse-marker cursor-pointer";
+      "w-6 h-6 rounded-full bg-green-600 pulse-marker cursor-pointer";
     return el;
   };
 
@@ -75,7 +75,7 @@ const MapView = () => {
 
     const el = createMarkerEl();
     el.onclick = () => {
-      map.current.flyTo({ center: food.location.coordinates, zoom: 12 });
+      map.current.flyTo({ center: food.location.coordinates, zoom: 13 });
       setSelectedFood(food);
     };
 
@@ -139,7 +139,7 @@ const MapView = () => {
       if (data.foods.length > 0) {
         const bounds = new mapboxgl.LngLatBounds();
         data.foods.forEach((f) => bounds.extend(f.location.coordinates));
-        map.current.fitBounds(bounds, { padding: 80 });
+        map.current.fitBounds(bounds, { padding: 70 });
       }
     } catch (err) {
       console.error("Fetch nearby foods error:", err);

@@ -36,7 +36,7 @@ const RestaurantDashboard = () => {
 
   // Socket listeners
   useEffect(() => {
-    if (!user?.id || !socket.connected) return;
+    if (!user?.id) return;
 
     const handleFoodClaimed = ({ foodId }) => {
       let claimedFoodName = "";
@@ -83,7 +83,7 @@ const RestaurantDashboard = () => {
       socket.off("food_collected_owner", handleFoodCollected);
       socket.off("food_expired", handleFoodExpired);
     };
-  }, [user?.id]);
+  }, [user?.id, socket]);
 
   const handleDelete = async (id) => {
     try {

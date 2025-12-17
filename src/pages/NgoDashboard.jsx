@@ -30,7 +30,7 @@ const NgoDashboard = () => {
 
   // Socket listeners
   useEffect(() => {
-    if (!user?.id || !socket.connected) return;
+    if (!user?.id) return;
 
     const handleFoodExpired = ({ ids }) => {
       if (!ids?.length) return;
@@ -57,14 +57,14 @@ const NgoDashboard = () => {
 
     socket.on("food_expired", handleFoodExpired);
     socket.on("food_unavailable", handleFoodUnavailable);
-    socket.on("food_collected_owner", handleFoodCollected);
+    socket.on("food_collected_ngo", handleFoodCollected);
 
     return () => {
       socket.off("food_expired", handleFoodExpired);
       socket.off("food_unavailable", handleFoodUnavailable);
-      socket.off("food_collected_owner", handleFoodCollected);
+      socket.off("food_collected_ngo", handleFoodCollected);
     };
-  }, [user?.id]);
+  }, [user?.id,socket]);
 
   if (loading) return <Spinner />;
 

@@ -23,19 +23,25 @@ export const AuthProvider = ({ children }) => {
 
   // RESTORE SESSION ON REFRESH
   useEffect(() => {
-    const loadUser = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get("/users/me");
-        setUser(res.data);
-      } catch (err) {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadUser();
-  }, []);
+  const loadUser = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/users/me");
+
+      setUser({
+        ...res.data,
+        id: res.data._id,
+      });
+
+    } catch (err) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  loadUser();
+}, []);
+
 
   const login = async ({ email, password }) => {
     setLoading(true);
@@ -52,7 +58,10 @@ export const AuthProvider = ({ children }) => {
       toast.success(res.data.message);
 
       const profile = await api.get("/users/me");
-      setUser(profile.data);
+      setUser({
+        ...profile.data,
+        id: profile.data._id,  
+      });
 
       navigate("/");
       return { success: true };

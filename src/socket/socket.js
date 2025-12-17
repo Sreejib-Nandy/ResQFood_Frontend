@@ -28,7 +28,6 @@ export const disconnectSocket = () => {
   }
 };
 
-
 socket.on("connect", () => {
   console.log("Socket connected:", socket.id);
 });
