@@ -12,7 +12,7 @@ const NgoDashboard = () => {
 
   // Fetch claimed foods
   const fetchFoods = async () => {
-    if (!user?._id) return;
+    if (!user?.id) return;
     try {
       setLoading(true);
       const res = await claimedFoodPosts();
@@ -26,11 +26,11 @@ const NgoDashboard = () => {
 
   useEffect(() => {
     fetchFoods();
-  }, [user?._id]);
+  }, [user?.id]);
 
   // Socket listeners
   useEffect(() => {
-    if (!user?._id || !socket.connected) return;
+    if (!user?.id || !socket.connected) return;
 
     const handleFoodExpired = ({ ids }) => {
       if (!ids?.length) return;
@@ -52,7 +52,7 @@ const NgoDashboard = () => {
       socket.off("food_expired", handleFoodExpired);
       socket.off("food_unavailable", handleFoodUnavailable);
     };
-  }, [user?._id]);
+  }, [user?.id]);
 
   if (loading) return <Spinner />;
 

@@ -18,7 +18,7 @@ const RestaurantDashboard = () => {
 
   // Fetch foods
   const fetchFoods = async () => {
-    if (!user?._id) return;
+    if (!user?.id) return;
     try {
       setLoading(true);
       const res = await getFoodPosts(user._id);
@@ -32,11 +32,11 @@ const RestaurantDashboard = () => {
 
   useEffect(() => {
     fetchFoods();
-  }, [user?._id]);
+  }, [user?.id]);
 
   // Socket listeners
   useEffect(() => {
-    if (!user?._id || !socket.connected) return;
+    if (!user?.id || !socket.connected) return;
 
     const handleFoodClaimed = ({ foodId }) => {
       let claimedFoodName = "";
@@ -83,7 +83,7 @@ const RestaurantDashboard = () => {
       socket.off("food_collected_owner", handleFoodCollected);
       socket.off("food_expired", handleFoodExpired);
     };
-  }, [user?._id]);
+  }, [user?.id]);
 
   const handleDelete = async (id) => {
     try {
