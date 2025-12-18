@@ -44,7 +44,7 @@ const ClaimedCard = ({ food = {} }) => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col py-4 sm:py-5 space-y-2">
+      <div className="flex flex-col py-4 sm:py-5 space-y-2 mx-3">
         <h3 className="text-gray-900 text-2xl font-semibold">
           {food.food_name || "Unnamed Food"}
         </h3>
