@@ -28,10 +28,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.get("/users/me");
 
-      setUser({
-        ...res.data,
-        id: res.data._id,
-      });
+      setUser(res.data);
 
     } catch (err) {
       setUser(null);
@@ -58,10 +55,7 @@ export const AuthProvider = ({ children }) => {
       toast.success(res.data.message);
 
       const profile = await api.get("/users/me");
-      setUser({
-        ...profile.data,
-        id: profile.data._id,  
-      });
+      setUser(profile.data);
 
       navigate("/");
       return { success: true };
