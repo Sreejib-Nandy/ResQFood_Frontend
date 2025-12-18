@@ -169,8 +169,8 @@ const MapView = () => {
 
   return (
     <>
-      <div className="absolute z-10 top-20 right-0 bg-white p-4 rounded-lg shadow-lg flex gap-3">
-        <label className="text-sm font-medium">Search Radius (km)</label>
+      <div className="absolute z-10 top-20 right-5 bg-white p-4 rounded-lg shadow-lg flex gap-3">
+        <label className="text-sm font-medium flex items-center">Search Radius (km)</label>
         <input
           type="number"
           min={1}
@@ -191,7 +191,7 @@ const MapView = () => {
       </div>
 
       {noResults && (
-        <div className="w-full absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded shadow mx-1">
+        <div className="max-w-full absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded shadow mx-1">
           No available food posts within <span className="text-red-500"><b>{radius} km</b></span>
         </div>
       )}
