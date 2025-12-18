@@ -12,17 +12,17 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center p-3">
+    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center m-3 p-4">
       <div className="
         bg-white
         w-full max-w-md
         rounded-xl
         shadow-xl
         overflow-hidden
-        p-4
+        p-2
       ">
         {/* Header */}
-        <div className="flex items-center justify-between border-b">
+        <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold text-gray-800">
             Food Details
           </h2>
@@ -33,7 +33,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Image */}
-        <div className="w-full h-48 sm:h-52 overflow-hidden object-cover rounded-lg">
+        <div className="w-full h-48 sm:h-52 overflow-hidden object-cover rounded-lg px-2">
           <img
             src={
               food.food_image?.[0]?.url ||
@@ -45,16 +45,16 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Content */}
-        <div className="py-4 space-y-3">
+        <div className="py-4 space-y-3 px-2">
           <h3 className="text-gray-900 text-2xl font-semibold">
             {food.food_name}
           </h3>
 
-          <p className="text-gray-500 mt-1.5 text-sm">
+          <p className="text-gray-500 mt-1.5 text-sm px-2">
             {food.description || "No description available"}
           </p>
 
-          <div className="space-y-1.5 px-1">
+          <div className="space-y-1.5 px-2">
             <p>
               <strong>Quantity:</strong>{" "}
               <span className="ml-1">{food.quantity}</span>
@@ -81,7 +81,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Actions */}
-        <div className="py-4 flex gap-3">
+        <div className="py-4 flex px-2">
           <button
             disabled={food.status !== "available"}
             onClick={handleClaim}
