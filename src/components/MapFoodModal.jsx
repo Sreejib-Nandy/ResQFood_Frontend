@@ -12,7 +12,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center m-3 p-4">
+    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center mt-6 p-4">
       <div className="
         bg-white
         w-full max-w-md
@@ -22,7 +22,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         p-2
       ">
         {/* Header */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between m-3">
           <h2 className="text-lg font-semibold text-gray-800">
             Food Details
           </h2>
@@ -33,19 +33,19 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Image */}
-        <div className="w-full h-48 sm:h-52 overflow-hidden object-cover rounded-lg px-2">
+        <div className="w-full h-48 sm:h-52 overflow-hidden px-3">
           <img
             src={
               food.food_image?.[0]?.url ||
               "https://via.placeholder.com/400x300?text=Food+Image"
             }
             alt={food.food_name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
           />
         </div>
 
         {/* Content */}
-        <div className="py-4 space-y-3 px-2">
+        <div className="py-4 px-3">
           <h3 className="text-gray-900 text-2xl font-semibold">
             {food.food_name}
           </h3>
@@ -75,13 +75,13 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </p>
             <p>
               <strong>Status:</strong>{" "}
-              <span className="ml-1 capitalize">{food.status.charAt(0).toUpperCase() + food.status.slice(1)}</span>
+              <span className="ml-1 capitalize text-green-600">{food.status.charAt(0).toUpperCase() + food.status.slice(1)}</span>
             </p>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="py-4 flex px-2">
+        <div className="p-2 flex">
           <button
             disabled={food.status !== "available"}
             onClick={handleClaim}
