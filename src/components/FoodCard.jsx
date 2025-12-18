@@ -19,9 +19,9 @@ const FoodCard = ({ food = {}, onDelete, onEdit }) => {
     <div className="p-4 bg-white rounded-lg shadow-xl shadow-[#515739] text-sm max-w-90 max-md:m-auto">
       <img className="rounded-md max-h-60 w-full object-cover" src={food.food_image?.[0]?.url ||
         "https://via.placeholder.com/400x300?text=Food+Image"} alt={food.food_name || "Food image"} />
-      <h3 className="text-gray-900 text-2xl font-semibold ml-2 mt-2">{food.food_name || "Unnamed Food"}</h3>
-      <p className="text-gray-500 mt-1.5 ml-2 text-sm">{food.description || "No description"}</p>
-      <div className="space-y-2 pl-1.5 pt-2">
+      <h3 className="text-gray-900 text-2xl font-semibold ml-1 mt-2">{food.food_name || "Unnamed Food"}</h3>
+      <p className="text-gray-500 mt-1.5 ml-1 text-sm">{food.description || "No description"}</p>
+      <div className="space-y-2.5 pl-1 pt-2">
         <p><b>Quantity :</b> {food.quantity || "Not specified"}</p>
         <p>
           <b>Expiry :</b>{" "}
