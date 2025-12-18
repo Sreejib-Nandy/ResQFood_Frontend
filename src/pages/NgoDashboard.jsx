@@ -11,94 +11,71 @@ const NgoDashboard = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch claimed foods by this NGO
-  const fetchFoods = async () => {
-    if (!user?.id) return;
-    try {
-      setLoading(true);
-      const res = await claimedFoodPosts();
-      setFoods(res.data.data || []);
-    } catch {
-      setFoods([]);
-    } finally {
-      setLoading(false);
+  // Fetch claimed foods by this NGO 
+const fetchFoods = async () => {
+  if (!user?.id) return;
+  try {
+    setLoading(true);
+    const res = await claimedFoodPosts();
+    setFoods(res.data.data || []);
+  } catch {
+    setFoods([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Initial fetch + user change
+useEffect(() => {
+  fetchFoods();
+}, [user?.id]);
+
+// Socket listeners = REFETCH ONLY
+useEffect(() => {
+  if (!user?.id) return;
+
+  const refetch = () => {
+    console.log("NGO refetch triggered by socket");
+    fetchFoods();
+  };
+
+  socket.on("food_claimed_ngo", refetch);
+  socket.on("food_collected_ngo", refetch);
+  socket.on("food_expired", refetch);
+  socket.on("food_unavailable", refetch);
+
+  console.log("NGO socket listeners attached");
+
+  return () => {
+    socket.off("food_claimed_ngo", refetch);
+    socket.off("food_collected_ngo", refetch);
+    socket.off("food_expired", refetch);
+    socket.off("food_unavailable", refetch);
+    console.log("NGO socket listeners removed");
+  };
+}, []);
+
+useEffect(() => {
+  const toastClaimed = ({ ngoId, foodName }) => {
+    if (ngoId === user?._id) {
+      toast.success(`You claimed "${foodName}" successfully`);
     }
   };
 
-  useEffect(() => {
-    fetchFoods();
-  }, [user?.id]);
+  const toastCollected = ({ ngoId, foodName }) => {
+    if (ngoId === user?._id) {
+      toast.success(`You collected "${foodName}" successfully`);
+    }
+  };
 
-  // Socket listeners for NGO (who claimed the food)
-  useEffect(() => {
-    if (!user?.id || !socket) return;
+  socket.on("food_claimed_ngo", toastClaimed);
+  socket.on("food_collected_ngo", toastCollected);
 
-    const handleFoodClaimed = (data) => {
-      console.log("NGO received food_claimed_ngo:", data);
-      
-      // Refetch to get the newly claimed food with all details
-      fetchFoods();
-      toast.success("Food claimed successfully!");
-    };
-
-    const handleFoodCollected = (data) => {
-      console.log("NGO received food_collected_ngo:", data);
-      
-      const { foodId } = data;
-      let collectedFoodName = "";
-      
-      setFoods((prev) =>
-        prev.map((food) => {
-          if (food._id === foodId) {
-            collectedFoodName = food.food_name;
-            return { ...food, status: "collected" }; 
-          }
-          return food;
-        })
-      );
-
-      if (collectedFoodName) {
-        toast.success(`"${collectedFoodName}" marked as collected!`);
-      }
-    };
-
-    const handleFoodExpired = (data) => {
-      console.log("NGO received food_expired:", data);
-      
-      const { ids } = data;
-      if (!ids?.length) return;
-      
-      setFoods((prev) =>
-        prev.map((food) =>
-          ids.includes(food._id) ? { ...food, status: "expired" } : food
-        )
-      );
-    };
-
-    const handleFoodUnavailable = (data) => {
-      console.log("NGO received food_unavailable:", data);
-      
-      const { foodId } = data;
-      
-      // Remove if another NGO claimed it (shouldn't happen, but safety check)
-      setFoods((prev) => prev.filter((food) => food._id !== foodId));
-    };
-
-    socket.on("food_claimed_ngo", handleFoodClaimed);
-    socket.on("food_collected_ngo", handleFoodCollected);
-    socket.on("food_expired", handleFoodExpired);
-    socket.on("food_unavailable", handleFoodUnavailable);
-
-    console.log("NGO socket listeners attached");
-
-    return () => {
-      socket.off("food_claimed_ngo", handleFoodClaimed);
-      socket.off("food_collected_ngo", handleFoodCollected);
-      socket.off("food_expired", handleFoodExpired);
-      socket.off("food_unavailable", handleFoodUnavailable);
-      console.log("NGO socket listeners removed");
-    };
-  }, [user?.id]);
+  return () => {
+    socket.off("food_claimed_ngo", toastClaimed);
+    socket.off("food_collected_ngo", toastCollected);
+  };
+}, []);
 
   if (loading) return <Spinner />;
 
