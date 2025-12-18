@@ -108,7 +108,7 @@ const NgoDashboard = () => {
 
   // Fetch claimed foods by this NGO
   const fetchFoods = async () => {
-    if (!user?._id) return;
+    if (!user?.id) return;
     try {
       setLoading(true);
       const res = await claimedFoodPosts();
@@ -122,11 +122,11 @@ const NgoDashboard = () => {
 
   useEffect(() => {
     fetchFoods();
-  }, [user?._id]);
+  }, [user?.id]);
 
   // Socket listeners for NGO (who claimed the food)
   useEffect(() => {
-    if (!user?._id || !socket) return;
+    if (!user?.id || !socket) return;
 
     const handleFoodClaimed = (data) => {
       console.log("NGO received food_claimed_ngo:", data);
@@ -193,7 +193,7 @@ const NgoDashboard = () => {
       socket.off("food_unavailable", handleFoodUnavailable);
       console.log("NGO socket listeners removed");
     };
-  }, [user?._id]);
+  }, [user?.id]);
 
   if (loading) return <Spinner />;
 

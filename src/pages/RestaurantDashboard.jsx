@@ -42,7 +42,7 @@ useEffect(() => {
     const { ngoId, foodName } = data;
 
     // Ignore events not meant for this NGO
-    if (ngoId !== user?._id) return;
+    if (ngoId !== user?.id) return;
 
     fetchFoods();
     toast.success(`"${foodName}" claimed successfully`);
@@ -53,7 +53,7 @@ useEffect(() => {
 
     const { ngoId, foodId, foodName } = data;
 
-    if (ngoId !== user?._id) return;
+    if (ngoId !== user?.id) return;
 
     setFoods((prev) =>
       prev.map((food) =>
