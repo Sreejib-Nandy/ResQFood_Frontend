@@ -198,7 +198,7 @@ useEffect(() => {
       </div>
 
       {noResults && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-10 py-2 rounded shadow mx-1">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-2 rounded shadow mx-1">
           No available food posts within <span className="text-red-500"><b>{radius} km</b></span>
         </div>
       )}

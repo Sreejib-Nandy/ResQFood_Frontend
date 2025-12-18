@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { collectFood } from "../api/food";
 
-const ClaimedCard = ({ food = {} }) => {
+const ClaimedCard = ({ food = {}, refresh }) => {
   const status = food.status || "available";
 
   const statusColor = {
@@ -16,6 +16,7 @@ const ClaimedCard = ({ food = {} }) => {
   const handleCollect = async () => {
     try {
       const res = await collectFood(food._id);
+      refresh();
       toast.success("Thank you, food is collected");
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
