@@ -2,7 +2,10 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import toast from "react-hot-toast";
-import { setupSocketListeners, connectSocket, disconnectSocket } from "../socket/socket";
+import {
+  setupSocketListeners,
+  connectSocket,
+} from "../socket/socket";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -12,17 +15,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // CONNECT SOCKET ONCE (APP LEVEL)
   useEffect(() => {
-    if (user) {
-      setupSocketListeners();
-      connectSocket(user);
-    }
-
-    return () => {
-      disconnectSocket();
-    };
-  }, [user]);
-
+    setupSocketListeners();
+    connectSocket();
+  }, []);
 
   // RESTORE SESSION ON REFRESH
   useEffect(() => {
@@ -30,10 +27,8 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       try {
         const res = await api.get("/users/me");
-
         setUser(res.data);
-
-      } catch (err) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -42,17 +37,13 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
-
   const login = async ({ email, password }) => {
     setLoading(true);
     try {
       const res = await api.post(
         "/auth/login",
         { email, password },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       toast.success(res.data.message);
@@ -64,10 +55,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
-      return {
-        success: false,
-        message: err.response?.data?.message || "Login failed",
-      };
+      return { success: false };
     } finally {
       setLoading(false);
     }
@@ -81,10 +69,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
-      return {
-        success: false,
-        message: err.response?.data?.message || "Registration failed",
-      };
+      return { success: false };
     } finally {
       setLoading(false);
     }

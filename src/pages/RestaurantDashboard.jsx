@@ -34,56 +34,71 @@ const RestaurantDashboard = () => {
     fetchFoods();
   }, [user?.id]);
 
-  // Socket listeners
-  useEffect(() => {
-    if (!user?.id) return;
+// Socket listeners for NGO
+useEffect(() => {
+  const handleFoodClaimed = (data) => {
+    console.log("NGO received food_claimed_ngo:", data);
 
-    const handleFoodClaimed = ({ foodId }) => {
-      let claimedFoodName = "";
+    const { ngoId, foodName } = data;
 
-      setFoods((prev) =>
-        prev.map((food) => {
-          if (food._id === foodId) {
-            claimedFoodName = food.food_name;
-            return { ...food, status: "claimed" };
-          }
-          return food;
-        })
-      );
+    // Ignore events not meant for this NGO
+    if (ngoId !== user?._id) return;
 
-      if (claimedFoodName) {
-        toast.success(`Your "${claimedFoodName}" was claimed`);
-      }
-    };
+    fetchFoods();
+    toast.success(`"${foodName}" claimed successfully`);
+  };
 
-    const handleFoodCollected = ({ foodId }) => {
-      setFoods((prev) =>
-        prev.map((food) =>
-          food._id === foodId ? { ...food, status: "collected" } : food
-        )
-      );
-      toast.success("Food collected successfully");
-    };
+  const handleFoodCollected = (data) => {
+    console.log("NGO received food_collected_ngo:", data);
 
-    const handleFoodExpired = ({ ids }) => {
-      if (!ids?.length) return;
-      setFoods((prev) =>
-        prev.map((food) =>
-          ids.includes(food._id) ? { ...food, status: "expired" } : food
-        )
-      );
-    };
+    const { ngoId, foodId, foodName } = data;
 
-    socket.on("food_claimed_owner", handleFoodClaimed);
-    socket.on("food_collected_owner", handleFoodCollected);
-    socket.on("food_expired", handleFoodExpired);
+    if (ngoId !== user?._id) return;
 
-    return () => {
-      socket.off("food_claimed_owner", handleFoodClaimed);
-      socket.off("food_collected_owner", handleFoodCollected);
-      socket.off("food_expired", handleFoodExpired);
-    };
-  }, [user?.id, socket]);
+    setFoods((prev) =>
+      prev.map((food) =>
+        food._id === foodId
+          ? { ...food, status: "collected" }
+          : food
+      )
+    );
+
+    toast.success(`"${foodName}" collected successfully`);
+  };
+
+  const handleFoodExpired = ({ ids }) => {
+    if (!ids?.length) return;
+
+    setFoods((prev) =>
+      prev.map((food) =>
+        ids.includes(food._id)
+          ? { ...food, status: "expired" }
+          : food
+      )
+    );
+  };
+
+  const handleFoodUnavailable = ({ foodId }) => {
+    setFoods((prev) =>
+      prev.filter((food) => food._id !== foodId)
+    );
+  };
+
+  socket.on("food_claimed_ngo", handleFoodClaimed);
+  socket.on("food_collected_ngo", handleFoodCollected);
+  socket.on("food_expired", handleFoodExpired);
+  socket.on("food_unavailable", handleFoodUnavailable);
+
+  console.log("NGO socket listeners attached");
+
+  return () => {
+    socket.off("food_claimed_ngo", handleFoodClaimed);
+    socket.off("food_collected_ngo", handleFoodCollected);
+    socket.off("food_expired", handleFoodExpired);
+    socket.off("food_unavailable", handleFoodUnavailable);
+    console.log("NGO socket listeners removed");
+  };
+}, []);
 
   const handleDelete = async (id) => {
     try {
