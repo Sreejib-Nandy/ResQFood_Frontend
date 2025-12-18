@@ -46,16 +46,16 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Content */}
-        <div className="py-4 px-3">
+        <div className="py-4 px-3 space-y-2">
           <h3 className="text-gray-900 text-2xl font-semibold">
             {food.food_name}
           </h3>
 
-          <p className="text-gray-500 mt-1.5 text-sm px-2">
+          <p className="text-gray-500 mt-1 text-sm">
             {food.description || "No description available"}
           </p>
 
-          <div className="space-y-1.5 px-2">
+          <div className="space-y-1.5">
             <p>
               <strong>Quantity:</strong>{" "}
               <span className="ml-1">{food.quantity}</span>
