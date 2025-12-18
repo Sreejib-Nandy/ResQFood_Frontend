@@ -44,17 +44,17 @@ const ClaimedCard = ({ food = {} }) => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-3 p-4 sm:p-5">
-        <h3 className="text-gray-900 text-2xl font-semibold ml-2 mt-2">
+      <div className="flex flex-col py-4 sm:py-5 space-y-2">
+        <h3 className="text-gray-900 text-2xl font-semibold">
           {food.food_name || "Unnamed Food"}
         </h3>
 
-        <p className="text-gray-500 mt-1.5 ml-2 text-sm">
+        <p className="text-gray-500 text-sm">
           {food.description || "No description"}
         </p>
 
         {/* Meta Info */}
-        <div className="space-y-2 pl-1.5 pt-2">
+        <div className="space-y-1.5">
           <p>
             <b>Quantity :</b>{" "}
             <span className="ml-1">{food.quantity || "Not specified"}</span>
@@ -88,7 +88,6 @@ const ClaimedCard = ({ food = {} }) => {
           disabled={food.status !== "claimed"}
           onClick={handleCollect}
           className="
-            mt-3
             w-full
             bg-green-600
             disabled:bg-gray-300
