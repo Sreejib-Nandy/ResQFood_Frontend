@@ -180,7 +180,7 @@ const MapView = () => {
         />
         <button
           onClick={fetchFoods}
-          className="bg-[#b9de4a] text-white px-3 py-1 rounded"
+          className="bg-[#b9de4a] text-white px-3 py-1 rounded cursor-pointer"
         >
           Search
         </button>
@@ -191,7 +191,7 @@ const MapView = () => {
       </div>
 
       {noResults && (
-        <div className="max-w-full absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded shadow mx-1">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-10 py-2 rounded shadow mx-1">
           No available food posts within <span className="text-red-500"><b>{radius} km</b></span>
         </div>
       )}
