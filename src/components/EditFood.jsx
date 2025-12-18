@@ -95,7 +95,7 @@ const EditFood = ({ open, onClose, food, onUpdated }) => {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
             <form
                 onSubmit={submit}
-                className="bg-white w-full max-w-lg rounded-xl px-6 py-5 space-y-2 max-md:w-[92vw]"
+                className="bg-white w-full max-w-lg rounded-xl px-6 py-5 space-y-2 max-md:w-[92vw] my-3"
             >
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Edit Food Post</h2>
@@ -158,7 +158,7 @@ const EditFood = ({ open, onClose, food, onUpdated }) => {
 
                 <button
                     disabled={loading}
-                    className="w-full bg-[#9fc235] text-white py-2 rounded-lg disabled:opacity-60 cursor-pointer"
+                    className="w-full bg-[#8bb01c] text-white py-2 rounded-lg disabled:opacity-60 cursor-pointer"
                 >
                     {loading ? "Updating..." : "Update Food"}
                 </button>

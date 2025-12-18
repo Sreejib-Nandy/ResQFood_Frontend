@@ -40,7 +40,7 @@ const FoodCard = ({ food = {}, onDelete, onEdit }) => {
         <p>
           <b>Status :</b>{" "}
           <span className={color}>
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+            {food.status.charAt(0).toUpperCase() + food.status.slice(1)}
           </span>
         </p>
       </div>

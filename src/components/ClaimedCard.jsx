@@ -45,34 +45,40 @@ const ClaimedCard = ({ food = {} }) => {
 
       {/* Content */}
       <div className="flex flex-col gap-3 p-4 sm:p-5">
-        <h3 className="text-gray-900 text-xl sm:text-2xl font-semibold">
+        <h3 className="text-gray-900 text-2xl font-semibold ml-2 mt-2">
           {food.food_name || "Unnamed Food"}
         </h3>
 
-        <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
+        <p className="text-gray-500 mt-1.5 ml-2 text-sm">
           {food.description || "No description"}
         </p>
 
         {/* Meta Info */}
-        <div className="space-y-1.5 text-sm sm:text-base">
+        <div className="space-y-2 pl-1.5 pt-2">
           <p>
             <b>Quantity :</b>{" "}
             <span className="ml-1">{food.quantity || "Not specified"}</span>
           </p>
 
           <p>
-            <b>Expiry :</b>{" "}
-            <span className="ml-1">
-              {food.expiry_time
-                ? new Date(food.expiry_time).toLocaleDateString()
-                : "Not specified"}
-            </span>
-          </p>
+          <b>Expiry :</b>{" "}
+          {food.expiry_time
+            ? new Date(food.expiry_time).toLocaleString("en-GB", {
+              timeZone: "UTC",
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+            : "Not specified"}
+        </p>
 
           <p>
             <b>Status :</b>{" "}
             <span className={`ml-1 font-medium ${color}`}>
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {food.status.charAt(0).toUpperCase() + food.status.slice(1)}
             </span>
           </p>
         </div>

@@ -92,7 +92,7 @@ const CreateFood = ({ open, onClose, onCreated }) => {
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <form
         onSubmit={submit}
-        className="bg-white w-full max-w-lg rounded-xl px-6 py-5 space-y-2 max-md:w-[92vw]"
+        className="bg-white w-full max-w-lg rounded-xl px-6 py-5 space-y-2 max-md:w-[92vw] my-3"
       >
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Create Food Post</h2>

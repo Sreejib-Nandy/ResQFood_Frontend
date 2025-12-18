@@ -19,6 +19,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         rounded-xl
         shadow-xl
         overflow-hidden
+        p-4
       ">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b p-5">
@@ -32,7 +33,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Image */}
-        <div className="w-full h-48 sm:h-52 overflow-hidden">
+        <div className="w-full h-48 sm:h-52 overflow-hidden object-cover">
           <img
             src={
               food.food_image?.[0]?.url ||
@@ -44,29 +45,43 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         </div>
 
         {/* Content */}
-        <div className="px-4 py-4 space-y-3">
-          <h3 className="text-xl font-semibold text-gray-900">
+        <div className="py-4 space-y-3">
+          <h3 className="text-gray-900 text-2xl font-semibold ml-2 mt-2">
             {food.food_name}
           </h3>
 
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-gray-500 mt-1.5 ml-2 text-sm">
             {food.description || "No description available"}
           </p>
 
-          <div className="text-sm space-y-1">
+          <div className="space-y-1">
             <p>
               <strong>Quantity:</strong>{" "}
               <span className="ml-1">{food.quantity}</span>
             </p>
             <p>
+          <b>Expiry :</b>{" "}
+          {food.expiry_time
+            ? new Date(food.expiry_time).toLocaleString("en-GB", {
+              timeZone: "UTC",
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+            : "Not specified"}
+        </p>
+            <p>
               <strong>Status:</strong>{" "}
-              <span className="ml-1 capitalize">{food.status}</span>
+              <span className="ml-1 capitalize">{food.status.charAt(0).toUpperCase() + food.status.slice(1)}</span>
             </p>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="px-4 py-4 border-t flex gap-3">
+        <div className="px-4 py-4 flex gap-3">
           <button
             disabled={food.status !== "available"}
             onClick={handleClaim}
