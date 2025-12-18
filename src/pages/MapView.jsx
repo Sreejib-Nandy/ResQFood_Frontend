@@ -45,7 +45,6 @@ const MapView = () => {
         .setLngLat([lng, lat])
         .addTo(map.current);
 
-      fetchFoods();
     });
   }, []);
 
