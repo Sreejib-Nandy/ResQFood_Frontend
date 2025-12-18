@@ -17,7 +17,7 @@ const ClaimedCard = ({ food = {}, refresh }) => {
     try {
       const res = await collectFood(food._id);
       refresh();
-      toast.success("Thank you, food is collected");
+      toast.success(`Thank you, "${food.food_name}" is collected`);
     } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
     }
