@@ -12,7 +12,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center mt-6 p-4">
+    <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center p-4">
       <div className="
         bg-white
         w-full max-w-md
@@ -20,6 +20,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
         shadow-xl
         overflow-hidden
         p-2
+        my-5
       ">
         {/* Header */}
         <div className="flex items-center justify-between m-3">
