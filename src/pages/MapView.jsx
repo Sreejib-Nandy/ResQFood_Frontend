@@ -37,7 +37,14 @@ const MapView = () => {
       const [lng, lat] = res.data.location.coordinates;
       ngoLocationRef.current = { lng, lat };
 
-      map.current.flyTo({ center: [lng, lat], zoom: 13 });
+      map.current.flyTo({
+        center: [lng, lat],
+        zoom: getZoomFromRadius(radius),
+        speed: 0.8,
+        curve: 1.5,
+        easing: (t) => t,
+        essential: true,
+      });
 
       drawRadiusCircle(lng, lat, radius);
 
@@ -74,7 +81,14 @@ const MapView = () => {
 
     const el = createMarkerEl();
     el.onclick = () => {
-      map.current.flyTo({ center: food.location.coordinates, zoom: 13 });
+      map.current.flyTo({
+        center: food.location.coordinates,
+        zoom: Math.max(14, getZoomFromRadius(radius)),
+        speed: 0.7,
+        curve: 1.6,
+        easing: (t) => t,
+        essential: true,
+      });
       setSelectedFood(food);
     };
 
@@ -121,6 +135,14 @@ const MapView = () => {
     });
   };
 
+  const getZoomFromRadius = (km) => {
+    if (km <= 2) return 15;
+    if (km <= 5) return 14;
+    if (km <= 10) return 13;
+    if (km <= 20) return 12;
+    return 11;
+  };
+
   const fetchFoods = async () => {
     try {
       const data = await getNearbyFoods(radius);
@@ -135,43 +157,50 @@ const MapView = () => {
         if (!serverIds.has(id)) removeMarker(id);
       });
 
-      if (data.foods.length > 0) {
-        const bounds = new mapboxgl.LngLatBounds();
-        data.foods.forEach((f) => bounds.extend(f.location.coordinates));
-        map.current.fitBounds(bounds, { padding: 70 });
+      if (data.foods.length > 0 && ngoLocationRef.current) {
+        const { lng, lat } = ngoLocationRef.current;
+
+        map.current.flyTo({
+          center: [lng, lat],
+          zoom: getZoomFromRadius(radius),
+          speed: 0.6,
+          curve: 1.4,
+          easing: (t) => t,
+          essential: true,
+        });
       }
     } catch (err) {
       console.error("Fetch nearby foods error:", err);
     }
   };
 
-useEffect(() => {
-  const onNewFood = (food) => addOrUpdateMarker(food);
-  const onPostUpdated = (food) => addOrUpdateMarker(food);
-  const onPostDeleted = ({ foodId }) => removeMarker(foodId);
-  const onFoodUnavailable = ({ foodId }) => removeMarker(foodId);
-  const onFoodExpired = ({ ids }) => {
-    if (!ids?.length) return;
-    ids.forEach(removeMarker);
-  };
+  useEffect(() => {
+    const onNewFood = (food) => addOrUpdateMarker(food);
+    const onPostUpdated = (food) => addOrUpdateMarker(food);
+    const onPostDeleted = ({ foodId }) => removeMarker(foodId);
+    const onFoodUnavailable = ({ foodId }) => removeMarker(foodId);
+    const onFoodExpired = ({ ids }) => {
+      if (!ids?.length) return;
+      ids.forEach(removeMarker);
+    };
 
-  socket.on("new_food_post", onNewFood);
-  socket.on("post_updated", onPostUpdated);
-  socket.on("post_deleted", onPostDeleted);
-  socket.on("food_unavailable", onFoodUnavailable);
-  socket.on("food_expired", onFoodExpired);
+    socket.on("new_food_post", onNewFood);
+    socket.on("post_updated", onPostUpdated);
+    socket.on("post_deleted", onPostDeleted);
+    socket.on("food_unavailable", onFoodUnavailable);
+    socket.on("food_expired", onFoodExpired);
 
-  console.log("MapView socket listeners attached");
+    console.log("MapView socket listeners attached");
 
-  return () => {
-    socket.off("new_food_post", onNewFood);
-    socket.off("post_updated", onPostUpdated);
-    socket.off("post_deleted", onPostDeleted);
-    socket.off("food_unavailable", onFoodUnavailable);
-    socket.off("food_expired", onFoodExpired);
-    console.log("MapView socket listeners removed");
-  };
-}, []);
+    return () => {
+      socket.off("new_food_post", onNewFood);
+      socket.off("post_updated", onPostUpdated);
+      socket.off("post_deleted", onPostDeleted);
+      socket.off("food_unavailable", onFoodUnavailable);
+      socket.off("food_expired", onFoodExpired);
+      console.log("MapView socket listeners removed");
+    };
+  }, []);
 
 
   return (
