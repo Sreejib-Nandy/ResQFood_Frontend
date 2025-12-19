@@ -64,7 +64,7 @@ const MapView = () => {
   const createMarkerEl = () => {
     const el = document.createElement("div");
     el.className =
-      "w-8 h-8 rounded-full bg-[#66cb03] pulse-marker cursor-pointer";
+      "w-4 h-4 rounded-full bg-[#66cb03] pulse-marker cursor-pointer";
     return el;
   };
 
