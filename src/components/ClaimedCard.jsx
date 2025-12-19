@@ -22,6 +22,22 @@ const ClaimedCard = ({ food = {}, refresh }) => {
     }
   };
 
+  const formatToIST = (iso) => {
+    if (!iso) return "";
+
+    const date = new Date(iso);
+
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <div className="
       bg-white rounded-xl shadow-xl shadow-[#515739]
@@ -63,15 +79,7 @@ const ClaimedCard = ({ food = {}, refresh }) => {
           <p>
           <b>Expiry :</b>{" "}
           {food.expiry_time
-            ? new Date(food.expiry_time).toLocaleString("en-GB", {
-              timeZone: "UTC",
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })
+            ? formatToIST(food.expiry_time)
             : "Not specified"}
         </p>
 

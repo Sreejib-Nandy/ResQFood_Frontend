@@ -15,6 +15,22 @@ const FoodCard = ({ food = {}, onDelete, onEdit }) => {
 
   const color = statusColor[status] || "text-gray-500";
 
+  const formatToIST = (iso) => {
+    if (!iso) return "";
+
+    const date = new Date(iso);
+
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-xl shadow-[#515739] text-sm max-w-90 max-md:m-auto">
       <img className="rounded-md max-h-60 w-full object-cover" src={food.food_image?.[0]?.url ||
@@ -26,15 +42,7 @@ const FoodCard = ({ food = {}, onDelete, onEdit }) => {
         <p>
           <b>Expiry :</b>{" "}
           {food.expiry_time
-            ? new Date(food.expiry_time).toLocaleString("en-GB", {
-              timeZone: "UTC",
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })
+            ? formatToIST(food.expiry_time)
             : "Not specified"}
         </p>
         <p>
