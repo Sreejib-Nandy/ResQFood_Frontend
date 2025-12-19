@@ -11,6 +11,22 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
     onClose();
   };
 
+  const formatToIST = (iso) => {
+    if (!iso) return "";
+
+    const date = new Date(iso);
+
+    return date.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 z-20 flex items-center justify-center p-4">
       <div className="
@@ -63,15 +79,7 @@ const MapFoodModal = ({ food, onClose, refresh }) => {
             <p>
           <b>Expiry :</b>{" "}
           {food.expiry_time
-            ? new Date(food.expiry_time).toLocaleString("en-GB", {
-              timeZone: "UTC",
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: true,
-            })
+            ? formatToIST(food.expiry_time)
             : "Not specified"}
         </p>
             <p>
