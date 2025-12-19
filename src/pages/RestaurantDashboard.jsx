@@ -44,8 +44,8 @@ const RestaurantDashboard = () => {
     };
 
     // Handler for food collected
-    const handleFoodCollected = ({ foodName }) => {
-      console.log("Restaurant received: food_collected_owner", { foodName });
+    const handleFoodCollected = ({ foodName, ngoName }) => {
+      console.log("Restaurant received: food_collected_owner", { foodName, ngoName });
       toast.success(`"${foodName}" was collected by ${ngoName}`);
       fetchFoods();
     };
