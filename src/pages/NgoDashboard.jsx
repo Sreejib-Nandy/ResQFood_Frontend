@@ -38,7 +38,7 @@ const NgoDashboard = () => {
       console.log("NGO received: food_claimed_ngo", { ngoId, foodName });
       
       // Check if this event is for current user
-      if (ngoId === user._id) {
+      if (ngoId === user.id) {
         toast.success(`You claimed "${foodName}" successfully`);
         fetchFoods(); // Refresh list
       }
@@ -49,7 +49,7 @@ const NgoDashboard = () => {
       console.log("NGO received: food_collected_ngo", { ngoId, foodName });
       
       // Check if this event is for current user
-      if (ngoId === user._id) {
+      if (ngoId === user.id) {
         toast.success(`You collected "${foodName}" successfully`);
         fetchFoods();
       }
