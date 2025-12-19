@@ -18,7 +18,13 @@ const EditFood = ({ open, onClose, food, onUpdated }) => {
 
     const utcToInputValue = (iso) => {
         if (!iso) return "";
-        return iso.slice(0, 16);
+
+        const date = new Date(iso); // UTC → Date object
+        const local = new Date(
+            date.getTime() - date.getTimezoneOffset() * 60000
+        );
+
+        return local.toISOString().slice(0, 16);
     };
 
     useEffect(() => {
@@ -71,7 +77,11 @@ const EditFood = ({ open, onClose, food, onUpdated }) => {
             fd.append("food_name", form.food_name);
             fd.append("quantity", form.quantity);
             fd.append("description", form.description);
-            fd.append("expiry_time", form.expiry_time);
+            if (form.expiry_time) {
+                const expiryISO = new Date(form.expiry_time).toISOString();
+                fd.append("expiry_time", expiryISO);
+            }
+
             if (form.address) fd.append("address", form.address);
 
             // only send image if user changed it

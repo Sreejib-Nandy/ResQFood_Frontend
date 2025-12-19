@@ -64,11 +64,8 @@ const CreateFood = ({ open, onClose, onCreated }) => {
     fd.append("food_name", form.food_name);
     fd.append("quantity", form.quantity);
     fd.append("description", form.description);
-    const local = new Date(form.expiry_time);
-    const utcDate = new Date(
-      local.getTime() - local.getTimezoneOffset() * 60000
-    );
-    fd.append("expiry_time", utcDate.toISOString());
+    const expiryISO = new Date(form.expiry_time).toISOString();
+    fd.append("expiry_time", expiryISO);
     if (form.address) fd.append("address", form.address);
 
     fd.append("food_image", image);
