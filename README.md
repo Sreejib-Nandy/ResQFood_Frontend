@@ -221,7 +221,7 @@ ResQFood demonstrates how **technology, automation, and social responsibility** 
 It is not just a hackathon prototype —  
 it is a **scalable, impactful, and sustainable solution** for food waste and social welfare.
 
-🔗 Backend Repository - (https://github.com/Sreejib-Nandy/ResQFood_Backend)
+🔗 Backend Repository - https://github.com/Sreejib-Nandy/ResQFood_Backend
 
 ---
 
