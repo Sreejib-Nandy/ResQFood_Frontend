@@ -34,7 +34,7 @@ export const setupSocketListeners = (callbacks = {}) => {
   socket.on("connect", () => {
   });
 
-  socket.on("disconnect", (reason) => {
+  socket.on("disconnect", () => {
   });
 
   socket.on("connect_error", (err) => {
