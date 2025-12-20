@@ -220,6 +220,7 @@ ResQFood demonstrates how **technology, automation, and social responsibility** 
 
 It is not just a hackathon prototype —  
 it is a **scalable, impactful, and sustainable solution** for food waste and social welfare.
+🔗 Backend URL - (https://resqfood-backend.fly.dev)
 
 ---
 
