@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import toast from "react-hot-toast";
-import { connectSocket, disconnectSocket, setupGlobalDebugListener } from "../socket/socket";
+import { connectSocket, disconnectSocket } from "../socket/socket";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -14,13 +14,10 @@ export const AuthProvider = ({ children }) => {
 
   // CONNECT SOCKET ONCE (APP LEVEL)
   useEffect(() => {
-    console.log("Connecting socket from AuthContext...");
     connectSocket();
 
-    setupGlobalDebugListener();
     // Cleanup on unmount
     return () => {
-      console.log("Disconnecting socket...");
       disconnectSocket();
     };
   }, []);

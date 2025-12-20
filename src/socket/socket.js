@@ -16,7 +16,6 @@ const socket = io(SOCKET_URL, {
 export const connectSocket = () => {
   if (!socket.connected) {
     socket.connect();
-    console.log("Connecting global socket...");
   }
 };
 
@@ -24,14 +23,7 @@ export const connectSocket = () => {
 export const disconnectSocket = () => {
   if (socket.connected) {
     socket.disconnect();
-    console.log("Socket disconnected");
   }
-};
-
-export const setupGlobalDebugListener = () => {
-  socket.onAny((eventName, ...args) => {
-    console.log(`SOCKET EVENT RECEIVED: "${eventName}"`, args);
-  });
 };
 
 // Setup all socket event listeners
@@ -40,11 +32,9 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Connection listeners
   socket.on("connect", () => {
-    console.log("Socket connected:", socket.id);
   });
 
   socket.on("disconnect", (reason) => {
-    console.log("Socket disconnected:", reason);
   });
 
   socket.on("connect_error", (err) => {
@@ -55,7 +45,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for food claimed events
   socket.on("foodClaimed", (data) => {
-    console.log("Food claimed:", data);
     if (callbacks.onFoodClaimed) {
       callbacks.onFoodClaimed(data);
     }
@@ -63,7 +52,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for food collected events
   socket.on("foodCollected", (data) => {
-    console.log("Food collected:", data);
     if (callbacks.onFoodCollected) {
       callbacks.onFoodCollected(data);
     }
@@ -71,7 +59,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for new food posted events
   socket.on("newFoodPosted", (data) => {
-    console.log("New food posted:", data);
     if (callbacks.onNewFoodPosted) {
       callbacks.onNewFoodPosted(data);
     }
@@ -79,7 +66,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for food updated events
   socket.on("foodUpdated", (data) => {
-    console.log("Food updated:", data);
     if (callbacks.onFoodUpdated) {
       callbacks.onFoodUpdated(data);
     }
@@ -87,7 +73,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for food deleted events
   socket.on("foodDeleted", (data) => {
-    console.log("Food deleted:", data);
     if (callbacks.onFoodDeleted) {
       callbacks.onFoodDeleted(data);
     }
@@ -95,7 +80,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for new food posted
   socket.on("new_food_post", (data) => {
-    console.log("New food posted:", data);
     if (callbacks.onNewFoodPost) {
       callbacks.onNewFoodPost(data);
     }
@@ -103,7 +87,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   // Listen for food unavailable (when claimed/collected)
   socket.on("food_unavailable", (data) => {
-    console.log("Food unavailable:", data);
     if (callbacks.onFoodUnavailable) {
       callbacks.onFoodUnavailable(data);
     }
@@ -111,7 +94,6 @@ export const setupSocketListeners = (callbacks = {}) => {
 
   //  Listen for food expired
   socket.on("food_expired", (data) => {
-    console.log("Food expired:", data);
     if (callbacks.onFoodExpired) {
       callbacks.onFoodExpired(data);
     }

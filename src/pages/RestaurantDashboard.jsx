@@ -38,21 +38,18 @@ const RestaurantDashboard = () => {
   useEffect(() => {
     // Handler for food claimed by NGO
     const handleFoodClaimed = ({ foodName, ngoName }) => {
-      console.log("Restaurant received: food_claimed_owner", { foodName, ngoName });
       toast.success(`"${foodName}" was claimed by ${ngoName}`);
       fetchFoods();
     };
 
     // Handler for food collected
     const handleFoodCollected = ({ foodName, ngoName }) => {
-      console.log("Restaurant received: food_collected_owner", { foodName, ngoName });
       toast.success(`"${foodName}" was collected by ${ngoName}`);
       fetchFoods();
     };
 
     // Handler for food expired
     const handleFoodExpired = (data) => {
-      console.log("Restaurant received: food_expired", data);
       fetchFoods();
     };
 
@@ -61,14 +58,11 @@ const RestaurantDashboard = () => {
     socket.on("food_collected_owner", handleFoodCollected);
     socket.on("food_expired", handleFoodExpired);
 
-    console.log("Restaurant socket listeners attached");
-
     // Cleanup
     return () => {
       socket.off("food_claimed_owner", handleFoodClaimed);
       socket.off("food_collected_owner", handleFoodCollected);
       socket.off("food_expired", handleFoodExpired);
-      console.log("Restaurant socket listeners removed");
     };
   }, [user?.id]); // Include user.id so fetchFoods always has correct user
 

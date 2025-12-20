@@ -35,8 +35,6 @@ const NgoDashboard = () => {
 
     // Handler for food claimed
     const handleFoodClaimed = ({ ngoId, foodName }) => {
-      console.log("NGO received: food_claimed_ngo", { ngoId, foodName });
-      
       // Check if this event is for current user
       if (ngoId === user.id) {
         toast.success(`You claimed "${foodName}" successfully`);
@@ -46,8 +44,6 @@ const NgoDashboard = () => {
 
     // Handler for food collected
     const handleFoodCollected = ({ ngoId, foodName }) => {
-      console.log("NGO received: food_collected_ngo", { ngoId, foodName });
-      
       // Check if this event is for current user
       if (ngoId === user.id) {
         toast.success(`You collected "${foodName}" successfully`);
@@ -57,13 +53,11 @@ const NgoDashboard = () => {
 
     // Handler for food expired
     const handleFoodExpired = (data) => {
-      console.log("NGO received: food_expired", data);
       fetchFoods(); 
     };
 
     // Handler for food unavailable (claimed by someone else)
     const handleFoodUnavailable = (data) => {
-      console.log("NGO received: food_unavailable", data);
       fetchFoods(); 
     };
 
@@ -73,15 +67,12 @@ const NgoDashboard = () => {
     socket.on("food_expired", handleFoodExpired);
     socket.on("food_unavailable", handleFoodUnavailable);
 
-    console.log("NGO socket listeners attached");
-
     // Cleanup
     return () => {
       socket.off("food_claimed_ngo", handleFoodClaimed);
       socket.off("food_collected_ngo", handleFoodCollected);
       socket.off("food_expired", handleFoodExpired);
       socket.off("food_unavailable", handleFoodUnavailable);
-      console.log("NGO socket listeners removed");
     };
   }, [user?.id]); // Include user so handlers always have current user
 
