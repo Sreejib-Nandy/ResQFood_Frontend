@@ -222,7 +222,7 @@ It is not just a hackathon prototype —
 it is a **scalable, impactful, and sustainable solution** for food waste and social welfare.
 
 ## 📚 Documentation
-🎨 Folder Structure & .env Example - [Frontend Guide](ResQFood_Frontend/frontend/DOCUMENTATION.md)
+🎨 Folder Structure & .env Example - [Frontend Guide](./DOCUMENTATION.md)
 
 🔗 Backend Repository - https://github.com/Sreejib-Nandy/ResQFood_Backend
 
