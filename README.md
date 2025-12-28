@@ -261,6 +261,9 @@ it is a **scalable, impactful, and sustainable solution** for food waste and soc
 ### NGO Dashboard Page
 ![NGO Dashboard Page](./Screenshots/Socket.png)
 
+## 📜 License
+This project is licensed under the **MIT License**.
+
 ## 👨‍💻 Author
 
 **Sreejib Nandy**  
