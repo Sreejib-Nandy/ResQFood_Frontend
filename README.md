@@ -97,7 +97,7 @@ ResQFood is **not just a listing platform** — it is a **coordination system**.
 
 ### 🚀 Deployment
 - Frontend: Vercel  
-- Backend: Fly.io  
+- Backend: Render  
 - Database: MongoDB Atlas  
 
 ---
@@ -221,6 +221,9 @@ ResQFood demonstrates how **technology, automation, and social responsibility** 
 It is not just a hackathon prototype —  
 it is a **scalable, impactful, and sustainable solution** for food waste and social welfare.
 
+## 📚 Documentation
+🎨 Folder Structure & .env Example - [Frontend Guide](./DOCUMENTATION.md)
+
 🔗 Backend Repository - https://github.com/Sreejib-Nandy/ResQFood_Backend
 
 ---
@@ -257,6 +260,9 @@ it is a **scalable, impactful, and sustainable solution** for food waste and soc
 
 ### NGO Dashboard Page
 ![NGO Dashboard Page](./Screenshots/Socket.png)
+
+## 📜 License
+This project is licensed under the **MIT License**.
 
 ## 👨‍💻 Author
 
