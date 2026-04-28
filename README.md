@@ -97,7 +97,7 @@ ResQFood is **not just a listing platform** — it is a **coordination system**.
 
 ### 🚀 Deployment
 - Frontend: Vercel  
-- Backend: Fly.io  
+- Backend: Render  
 - Database: MongoDB Atlas  
 
 ---
