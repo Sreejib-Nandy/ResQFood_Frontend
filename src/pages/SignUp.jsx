@@ -62,7 +62,7 @@ export default function Signup() {
         }
 
         try {
-            const result = await signup(form);
+            await signup(form);
         
         navigate("/login");
         scrollTo(0,0);
