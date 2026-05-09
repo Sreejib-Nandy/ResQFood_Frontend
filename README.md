@@ -1,3 +1,4 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)
 # ResQFood — Real-Time Surplus Food Rescue Platform
 
 **ResQFood** is a full-stack web platform designed to **reduce food wastage and improve garbage management** by connecting **restaurants, hotels, and event organizers** with **NGOs** in **real time**.  
